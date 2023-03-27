@@ -248,6 +248,10 @@ class DockerBuilder:
     @forall_images(consume_result=True)
     def render_dockerfiles(self, **kwargs):
         def install_pakages(*names):
+            temp = "rpm rsync://basalt.office.basealt.ru/space/ALT Sisyphus/$(uname -m) classic"
+            temp_i586 = "rpm rsync://basalt.office.basealt.ru/space/ALT Sisyphus/i586 classic"
+            temp_armh = "rpm rsync://basalt.office.basealt.ru/space/ALT Sisyphus/armh classic"
+            temp_noarch = "rpm rsync://basalt.office.basealt.ru/space/ALT Sisyphus/noarch classic"
             tasks = self.tasks.get(self.branch, kwargs["image"])
             linux32 = '$([ "$(rpm --eval %_host_cpu)" = i586 ] && echo linux32)'
             if tasks:
@@ -257,6 +261,13 @@ class DockerBuilder:
                 apt_repo += "\n    apt-get update && \\"
             else:
                 apt_repo = "\\"
+            apt_repo = "\\\n    apt-get install apt-repo apt-rsync -y && \\"
+            apt_repo += f"\n    {linux32} apt-repo rm all && \\"
+            apt_repo += f'\n    $($([ "$(rpm --eval %_host_cpu)" = i586 ] && {linux32} apt-repo add "{temp_i586}") || true) && \\'
+            apt_repo += f'\n    $($([ "$(rpm --eval %_host_cpu)" = armv7l ] && {linux32} apt-repo add "{temp_armh}") || true) && \\'
+            apt_repo += f'\n    $($([ "$(rpm --eval %_host_cpu)" != i586 ] && [ "$(rpm --eval %_host_cpu)" != armv7l ] && {linux32} apt-repo add "{temp}") || true) && \\'
+            apt_repo += f'\n    {linux32} apt-repo add "{temp_noarch}" && \\'
+            apt_repo += "\n    apt-get update && \\"
             update_command = f"""RUN apt-get update && {apt_repo}"""
             install_command = f"""
             {linux32} apt-get install -y {' '.join(names)} && \\
