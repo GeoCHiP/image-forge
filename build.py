@@ -639,7 +639,7 @@ class ImagesInfo:
 def parse_args():
     stages = ["build", "remove_dockerfiles", "render_dockerfiles", "push"]
     arches = ["amd64", "386", "arm64", "arm", "ppc64le"]
-    branches = ["p9", "p10", "sisyphus"]
+    branches = ["c10f1", "p9", "p10", "sisyphus"]
     organizations = list(ORG_DIR.iterdir())
     images = [f"{o.name}/{i.name}" for o in organizations for i in o.iterdir()]
     organizations = [o.name for o in organizations]
