@@ -1,18 +1,22 @@
 ["k8s/kube-apiserver"]
 p10 = [ "v1.26.9" ]
 sisyphus = [ "v1.26.9" ]
+c10f1 = [ "v1.22.17" ]
 
 ["k8s/kube-controller-manager"]
 p10 = [ "v1.26.9" ]
 sisyphus = [ "v1.26.9" ]
+c10f1 = [ "v1.22.17" ]
 
 ["k8s/kube-scheduler"]
 p10 = [ "v1.26.9" ]
 sisyphus = [ "v1.26.9" ]
+c10f1 = [ "v1.22.17" ]
 
 ["k8s/kube-proxy"]
 p10 = [ "v1.26.9" ]
 sisyphus = [ "v1.26.9" ]
+c10f1 = [ "v1.22.17" ]
 
 ["k8s/pause"]
 p10 = [ "3.9" ]
